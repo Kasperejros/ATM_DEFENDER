@@ -1,5 +1,6 @@
 package com.atm.game;
 
+import com.atm.game.screens.GameScreen;
 import com.atm.game.screens.MenuScreen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +13,7 @@ public class Game extends com.badlogic.gdx.Game {
 
 	@Override
 	public void create () {
-		this.setScreen(new MenuScreen(this));
+		this.setScreen(new GameScreen(this));
 	}
 
 

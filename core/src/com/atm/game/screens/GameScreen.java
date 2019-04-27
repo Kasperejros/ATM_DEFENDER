@@ -1,0 +1,46 @@
+package com.atm.game.screens;
+
+import com.atm.game.Game;
+import com.atm.game.GameObject;
+import com.atm.game.Map;
+import com.atm.game.Position;
+import com.atm.game.TextureCache;
+import com.atm.game.enemy.Enemy;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class GameScreen extends AbstractScreen {
+    private List<GameObject> objects;
+    private Position cursor;
+    private Map map;
+    private Texture background;
+    public GameScreen(Game g) {
+        super(g);
+        objects = new LinkedList<GameObject>();
+        map = new Map(7, 8);
+        background = TextureCache.getInstance().getTexture("Maps/Map_TEST.png");
+        objects.add(new Enemy(new Vector2(110, 100)));
+    }
+
+    @Override
+    public void render(float delta) {
+        super.render(delta);
+        for (GameObject o : objects) {
+            o.update(delta);
+        }
+        spriteBatch.begin();
+        spriteBatch.draw(background, 0,0);
+        for (GameObject o : objects) {
+            Vector2 position = Map.twoDToIso(o.getPosition());
+            spriteBatch.draw(o.getImage(), position.x, position.y);
+        }
+        spriteBatch.end();
+
+    }
+    private void createEnemies() {
+
+    }
+}
