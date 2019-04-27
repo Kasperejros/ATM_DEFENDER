@@ -4,8 +4,10 @@ import com.atm.game.EnemyDetector;
 import com.atm.game.Game;
 import com.atm.game.GameObject;
 import com.atm.game.Map;
+import com.atm.game.Cone;
 import com.atm.game.Position;
 import com.atm.game.TextureCache;
+import com.atm.game.Waypoints;
 import com.atm.game.defense.Defense;
 import com.atm.game.enemy.Enemy;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,7 +26,7 @@ public class GameScreen extends AbstractScreen {
         objects = new LinkedList<GameObject>();
         map = new Map(7, 8);
         background = TextureCache.getInstance().getTexture("Maps/Map_TEST.png");
-        objects.add(new Enemy(new Vector2(110, 100)));
+        objects.add(new Enemy(new Vector2(110, 100), route()));
         objects.add(new Defense(new Vector2(300, 100), new EnemyDetector(objects, new EnemyDetector.DetectorPredictate() {
             @Override
             public boolean isDetectable(GameObject o) {
@@ -51,5 +53,19 @@ public class GameScreen extends AbstractScreen {
     }
     private void createEnemies() {
 
+    }
+    private Waypoints route() {
+        Vector2[] waypoints = new Vector2[] {
+                new Vector2(10f,20f),
+                new Vector2(300f, 300f),
+                new Vector2(700f, 10f),
+                new Vector2(700f, 300f)
+        };
+        for (Vector2 w : waypoints) {
+            objects.add(new Cone(w));
+        }
+        return new Waypoints(
+                waypoints
+        );
     }
 }

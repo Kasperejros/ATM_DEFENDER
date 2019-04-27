@@ -20,7 +20,6 @@ public class Defense extends GameObject {
     public void update(float delta) {
         GameObject closest = this.detector.detectClosest(position, range);
         if (closest != null) {
-            Gdx.app.log("DEFENSE", "O MAM CHUJA");
             this.image = TextureCache.getInstance().getTexture("Defenses/defense_detect.png");
         } else {
             this.image = TextureCache.getInstance().getTexture("Defenses/defense.png");
