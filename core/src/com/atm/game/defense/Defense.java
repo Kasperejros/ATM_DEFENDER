@@ -1,14 +1,13 @@
 package com.atm.game.defense;
 
-import com.atm.game.EnemyDetector;
+import com.atm.game.ObjectsDetector;
 import com.atm.game.GameObject;
 import com.atm.game.TextureCache;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class Defense extends GameObject {
-    protected EnemyDetector detector;
-    public Defense(Vector2 position, EnemyDetector detector) {
+    protected ObjectsDetector detector;
+    public Defense(Vector2 position, ObjectsDetector detector) {
         super();
         this.position = position;
         this.detector = detector;

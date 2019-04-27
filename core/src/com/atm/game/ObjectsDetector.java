@@ -4,10 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
 
-public class EnemyDetector {
+public class ObjectsDetector {
     List<GameObject> objects;
     DetectorPredictate predicate;
-    public EnemyDetector(List<GameObject> objects, DetectorPredictate predictate) {
+    public ObjectsDetector(List<GameObject> objects, DetectorPredictate predictate) {
         this.objects = objects;
         this.predicate = predictate;
     }

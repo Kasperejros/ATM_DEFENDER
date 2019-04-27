@@ -7,7 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class GameObject extends Actor {
     protected Texture image;
     protected Vector2 position;
-
+    protected boolean alive = true;
+    public boolean isAlive() {
+        return alive;
+    }
     public void update(float deltaTime) {
 
     }
