@@ -1,10 +1,12 @@
 package com.atm.game.screens;
 
+import com.atm.game.EnemyDetector;
 import com.atm.game.Game;
 import com.atm.game.GameObject;
 import com.atm.game.Map;
 import com.atm.game.Position;
 import com.atm.game.TextureCache;
+import com.atm.game.defense.Defense;
 import com.atm.game.enemy.Enemy;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +25,13 @@ public class GameScreen extends AbstractScreen {
         map = new Map(7, 8);
         background = TextureCache.getInstance().getTexture("Maps/Map_TEST.png");
         objects.add(new Enemy(new Vector2(110, 100)));
+        objects.add(new Defense(new Vector2(300, 100), new EnemyDetector(objects, new EnemyDetector.DetectorPredictate() {
+            @Override
+            public boolean isDetectable(GameObject o) {
+                return o instanceof Enemy;
+            }
+        })));
+
     }
 
     @Override
