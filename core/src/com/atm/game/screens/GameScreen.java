@@ -1,6 +1,7 @@
 package com.atm.game.screens;
 
 import com.atm.game.ATM;
+import com.atm.game.Cursor;
 import com.atm.game.EnemiesFactory;
 import com.atm.game.ObjectsDetector;
 import com.atm.game.Game;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
     private List<GameObject> objects;
-    private Position cursor;
+    private Cursor cursor;
     private Map map;
     private Texture background;
     private EnemiesFactory enemiesFactory;
@@ -53,6 +54,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         tiledMapRenderer = new IsometricTiledMapRenderer(tiledMap);
         Gdx.input.setInputProcessor(this);
 
+        cursor = new Cursor();
+        objects.add(cursor);
     }
 
     @Override
@@ -62,6 +65,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         if (lastAddedEnemy > 3f) {
             lastAddedEnemy = 0f;
             objects.add(enemiesFactory.createEnemy(new Vector2(100f, 100f)));
+        }
+        if (Gdx.input.isTouched()) {
+            Vector2 touched = new Vector2(Gdx.input.getY(),Gdx.input.getX());
+            Vector2 touchedField = Map.twoDToIso(touched);
+            cursor.setPosition(touchedField);
         }
         super.render(delta);
         for (GameObject o : objects) {
