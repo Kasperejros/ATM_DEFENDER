@@ -11,26 +11,35 @@ import com.atm.game.Position;
 import com.atm.game.TextureCache;
 import com.atm.game.defense.Defense;
 import com.atm.game.enemy.Enemy;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class GameScreen extends AbstractScreen {
+public class GameScreen extends AbstractScreen implements InputProcessor {
     private List<GameObject> objects;
     private Position cursor;
     private Map map;
     private Texture background;
     private EnemiesFactory enemiesFactory;
     float lastAddedEnemy = 0;
+    TiledMap tiledMap;
+
     public GameScreen(Game g) {
         super(g);
         objects = new LinkedList<GameObject>();
         enemiesFactory = new EnemiesFactory(objects);
         enemiesFactory.route = route();
         map = new Map(7, 8);
-        background = TextureCache.getInstance().getTexture("Maps/Map_TEST.png");
+       // background = TextureCache.getInstance().getTexture("Maps/Map_TEST.png");
 
         objects.add(enemiesFactory.createEnemy(new Vector2(500f, 500f)));
         objects.add(new Defense(new Vector2(300, 100), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
@@ -40,6 +49,9 @@ public class GameScreen extends AbstractScreen {
             }
         })));
         objects.add(new ATM(new Vector2(500f, 300f)));
+        tiledMap = new TmxMapLoader().load("Maps/test_map.tmx");
+        tiledMapRenderer = new IsometricTiledMapRenderer(tiledMap);
+        Gdx.input.setInputProcessor(this);
 
     }
 
@@ -55,8 +67,10 @@ public class GameScreen extends AbstractScreen {
         for (GameObject o : objects) {
             o.update(delta);
         }
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
         spriteBatch.begin();
-        spriteBatch.draw(background, 0,0);
+       // spriteBatch.draw(background, 0,0);
         for (GameObject o : objects) {
             Vector2 position = Map.twoDToIso(o.getPosition());
             spriteBatch.draw(o.getImage(), position.x, position.y);
@@ -88,5 +102,57 @@ public class GameScreen extends AbstractScreen {
         for (GameObject o : toRemove) {
             objects.remove(o);
         }
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if(keycode == Input.Keys.LEFT)
+            camera.translate(-32,0);
+        if(keycode == Input.Keys.RIGHT)
+            camera.translate(32,0);
+        if(keycode == Input.Keys.UP)
+            camera.translate(0,-32);
+        if(keycode == Input.Keys.DOWN)
+            camera.translate(0,32);
+        if(keycode == Input.Keys.NUM_1)
+            tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
+        if(keycode == Input.Keys.NUM_2)
+            tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

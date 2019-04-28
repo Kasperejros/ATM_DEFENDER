@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.atm.game.Game;
@@ -15,8 +16,9 @@ public abstract class AbstractScreen implements Screen {
     protected Game game;
     protected Stage stage;
     protected SpriteBatch spriteBatch;
+    TiledMapRenderer tiledMapRenderer;
 
-    private OrthographicCamera camera;
+    OrthographicCamera camera;
 
     public AbstractScreen(Game game){
         this.game = game;
