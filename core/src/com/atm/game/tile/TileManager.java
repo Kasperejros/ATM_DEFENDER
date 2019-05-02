@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class TileActor extends Actor {
+public class TileManager {
 
     public TiledMap map;
     private TiledMapTileLayer highlightLayer;
@@ -14,7 +14,7 @@ public class TileActor extends Actor {
     private int previousCellX;
     private int previousCellY;
 
-    public TileActor (TiledMap map) {
+    public TileManager(TiledMap map) {
         this.map = map;
         highlightLayer =  (TiledMapTileLayer) map.getLayers().get(2);
         highlightSet = map.getTileSets().getTileSet("map");

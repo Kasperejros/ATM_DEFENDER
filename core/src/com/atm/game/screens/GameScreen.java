@@ -6,20 +6,17 @@ import com.atm.game.EnemiesFactory;
 import com.atm.game.ObjectsDetector;
 import com.atm.game.Game;
 import com.atm.game.GameObject;
-import com.atm.game.Map;
+import com.atm.game.tile.CoordinatesHelper;
 import com.atm.game.Cone;
-import com.atm.game.Position;
-import com.atm.game.TextureCache;
 import com.atm.game.defense.Defense;
 import com.atm.game.enemy.Enemy;
-import com.atm.game.tile.TileActor;
+import com.atm.game.tile.TileManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector3;
@@ -30,20 +27,16 @@ import java.util.List;
 public class GameScreen extends AbstractScreen implements InputProcessor {
     private List<GameObject> objects;
     private Cursor cursor;
-    private Map map;
-    private Texture background;
     private EnemiesFactory enemiesFactory;
     float lastAddedEnemy = 0;
     private TiledMap tiledMap;
-    private TileActor tileActor;
+    private TileManager tileManager;
 
     public GameScreen(Game g) {
         super(g);
         objects = new LinkedList<GameObject>();
         enemiesFactory = new EnemiesFactory(objects);
         enemiesFactory.route = route();
-        map = new Map(7, 8);
-       // background = TextureCache.getInstance().getTexture("Maps/Map_TEST.png");
 
         objects.add(enemiesFactory.createEnemy(new Vector2(500f, 500f)));
         objects.add(new Defense(new Vector2(300, 100), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
@@ -54,11 +47,11 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         })));
         objects.add(new ATM(new Vector2(500f, 300f)));
         tiledMap = new TmxMapLoader().load("Maps/test_map.tmx");
-        tileActor = new TileActor(tiledMap);
-        tiledMapRenderer = new IsometricTiledMapRenderer(tileActor.map);
+        tileManager = new TileManager(tiledMap);
+        tiledMapRenderer = new IsometricTiledMapRenderer(tileManager.map);
         Gdx.input.setInputProcessor(this);
 
-        tileActor.highlighTile(11,2);
+        tileManager.highlighTile(11,2);
         cursor = new Cursor();
         objects.add(cursor);
     }
@@ -73,7 +66,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         }
         if (Gdx.input.isTouched()) {
             Vector2 touched = new Vector2(Gdx.input.getY(),Gdx.input.getX());
-            Vector2 touchedField = Map.twoDToIso(touched);
+            Vector2 touchedField = CoordinatesHelper.twoDToIso(touched);
             cursor.setPosition(touchedField);
         }
         super.render(delta);
@@ -83,9 +76,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         spriteBatch.begin();
-       // spriteBatch.draw(background, 0,0);
         for (GameObject o : objects) {
-            Vector2 position = Map.twoDToIso(o.getPosition());
+            Vector2 position = CoordinatesHelper.twoDToIso(o.getPosition());
             spriteBatch.draw(o.getImage(), position.x, position.y);
         }
         spriteBatch.end();
@@ -163,9 +155,9 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     public boolean mouseMoved(int screenX, int screenY) {
         Vector3 position = new Vector3(screenX,screenY,0);
         camera.unproject(position);
-        int cellX = (int) Math.floor(Map.getTileCoordinates(position).x);
-        int cellY = (int) Math.floor(Map.getTileCoordinates(position).y);
-        tileActor.highlighTile(cellX+11, cellY+2 );
+        int cellX = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).x);
+        int cellY = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).y);
+        tileManager.highlighTile(cellX+11, cellY+2 );
         Gdx.app.log("MM", String.format("X: %s Y: %s",position.x, position.y));
         Gdx.app.log("CM", String.format("CX: %s CY: %s",cellX + 11, cellY + 4));
         return false;

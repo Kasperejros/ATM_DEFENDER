@@ -1,17 +1,9 @@
-package com.atm.game;
+package com.atm.game.tile;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class Map {
-    private Field[][] fields;
-    public Map(int width, int height) {
-        fields = new Field[width][height];
-    }
-
-    class Field {
-
-    }
+public class CoordinatesHelper {
 
     public static Vector2 twoDToIso(Vector2 pt){
         Vector2 tmp = new Vector2(0,0);
