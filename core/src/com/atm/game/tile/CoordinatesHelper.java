@@ -25,6 +25,8 @@ public class CoordinatesHelper {
         tileCoordinates.x /= Game.TILEWIDTH;
         tileCoordinates.y = (tileCoordinates.y - Game.TILEHEIGHT/2) / Game.TILEHEIGHT + tileCoordinates.x;
         tileCoordinates.x -= tileCoordinates.y - tileCoordinates.x;
+        tileCoordinates.x = tileCoordinates.x + 11;
+        tileCoordinates.y = tileCoordinates.y + 2;
         return tileCoordinates;
 
     }

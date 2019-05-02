@@ -157,7 +157,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         camera.unproject(position);
         int cellX = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).x);
         int cellY = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).y);
-        tileManager.highlightTile(cellX+11, cellY+2 );
+        tileManager.highlightTile(cellX,cellY);
         return false;
     }
 
