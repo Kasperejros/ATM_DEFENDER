@@ -1,6 +1,7 @@
 package com.atm.game;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class Map {
     private Field[][] fields;
@@ -24,5 +25,14 @@ public class Map {
         tempPt.x = (2 * pt.y + pt.x) / 2;
         tempPt.y = (2 * pt.y - pt.x) / 2;
         return(tempPt);
+    }
+
+    public static Vector2 getTileCoordinates(Vector3 pt){
+        Vector2 tileCoordinates = new Vector2(pt.x,pt.y);;
+        tileCoordinates.x /= 128;
+        tileCoordinates.y = (tileCoordinates.y - 64/2) / 64 + tileCoordinates.x;
+        tileCoordinates.x -= tileCoordinates.y - tileCoordinates.x;
+        return tileCoordinates;
+
     }
 }
