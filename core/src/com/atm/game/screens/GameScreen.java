@@ -158,8 +158,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         int cellX = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).x);
         int cellY = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).y);
         tileManager.highlighTile(cellX+11, cellY+2 );
-        Gdx.app.log("MM", String.format("X: %s Y: %s",position.x, position.y));
-        Gdx.app.log("CM", String.format("CX: %s CY: %s",cellX + 11, cellY + 4));
         return false;
     }
 
