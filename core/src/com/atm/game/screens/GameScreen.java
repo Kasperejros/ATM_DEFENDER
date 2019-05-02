@@ -14,7 +14,6 @@ import com.atm.game.tile.TileManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -49,9 +48,10 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         tiledMap = new TmxMapLoader().load("Maps/test_map.tmx");
         tileManager = new TileManager(tiledMap);
         tiledMapRenderer = new IsometricTiledMapRenderer(tileManager.map);
+
         Gdx.input.setInputProcessor(this);
 
-        tileManager.highlighTile(11,2);
+        tileManager.highlightTile(11,2);
         cursor = new Cursor();
         objects.add(cursor);
     }
@@ -157,7 +157,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         camera.unproject(position);
         int cellX = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).x);
         int cellY = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).y);
-        tileManager.highlighTile(cellX+11, cellY+2 );
+        tileManager.highlightTile(cellX+11, cellY+2 );
         return false;
     }
 

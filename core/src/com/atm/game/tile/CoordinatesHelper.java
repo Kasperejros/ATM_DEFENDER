@@ -1,5 +1,6 @@
 package com.atm.game.tile;
 
+import com.atm.game.Game;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -21,8 +22,8 @@ public class CoordinatesHelper {
 
     public static Vector2 getTileCoordinates(Vector3 pt){
         Vector2 tileCoordinates = new Vector2(pt.x,pt.y);;
-        tileCoordinates.x /= 128;
-        tileCoordinates.y = (tileCoordinates.y - 64/2) / 64 + tileCoordinates.x;
+        tileCoordinates.x /= Game.TILEWIDTH;
+        tileCoordinates.y = (tileCoordinates.y - Game.TILEHEIGHT/2) / Game.TILEHEIGHT + tileCoordinates.x;
         tileCoordinates.x -= tileCoordinates.y - tileCoordinates.x;
         return tileCoordinates;
 

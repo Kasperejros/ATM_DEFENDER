@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Game extends com.badlogic.gdx.Game {
 	public final static int WIDTH = 1280;
 	public final static int HEIGHT = 720;
+	public final static int TILEWIDTH = 128;
+	public final static int TILEHEIGHT = 64;
 
 	@Override
 	public void create () {
