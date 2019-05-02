@@ -1,7 +1,6 @@
 package com.atm.game.screens;
 
 import com.atm.game.ATM;
-import com.atm.game.Cursor;
 import com.atm.game.EnemiesFactory;
 import com.atm.game.ObjectsDetector;
 import com.atm.game.Game;
@@ -25,7 +24,6 @@ import java.util.List;
 
 public class GameScreen extends AbstractScreen implements InputProcessor {
     private List<GameObject> objects;
-    private Cursor cursor;
     private EnemiesFactory enemiesFactory;
     float lastAddedEnemy = 0;
     private TiledMap tiledMap;
@@ -45,15 +43,12 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             }
         })));
         objects.add(new ATM(new Vector2(500f, 300f)));
+
         tiledMap = new TmxMapLoader().load("Maps/test_map.tmx");
         tileManager = new TileManager(tiledMap);
         tiledMapRenderer = new IsometricTiledMapRenderer(tileManager.map);
 
         Gdx.input.setInputProcessor(this);
-
-        tileManager.highlightTile(11,2);
-        cursor = new Cursor();
-        objects.add(cursor);
     }
 
     @Override
@@ -63,11 +58,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         if (lastAddedEnemy > 3f) {
             lastAddedEnemy = 0f;
             objects.add(enemiesFactory.createEnemy(new Vector2(100f, 100f)));
-        }
-        if (Gdx.input.isTouched()) {
-            Vector2 touched = new Vector2(Gdx.input.getY(),Gdx.input.getX());
-            Vector2 touchedField = CoordinatesHelper.twoDToIso(touched);
-            cursor.setPosition(touchedField);
         }
         super.render(delta);
         for (GameObject o : objects) {
@@ -116,18 +106,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.LEFT)
-            camera.translate(-32,0);
-        if(keycode == Input.Keys.RIGHT)
-            camera.translate(32,0);
-        if(keycode == Input.Keys.UP)
-            camera.translate(0,-32);
-        if(keycode == Input.Keys.DOWN)
-            camera.translate(0,32);
-        if(keycode == Input.Keys.NUM_1)
-            tiledMap.getLayers().get(0).setVisible(!tiledMap.getLayers().get(0).isVisible());
-        if(keycode == Input.Keys.NUM_2)
-            tiledMap.getLayers().get(1).setVisible(!tiledMap.getLayers().get(1).isVisible());
         return false;
     }
 
