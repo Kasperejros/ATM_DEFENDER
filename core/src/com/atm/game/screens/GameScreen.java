@@ -5,6 +5,7 @@ import com.atm.game.EnemiesFactory;
 import com.atm.game.ObjectsDetector;
 import com.atm.game.Game;
 import com.atm.game.GameObject;
+import com.atm.game.Position;
 import com.atm.game.tile.CoordinatesHelper;
 import com.atm.game.Cone;
 import com.atm.game.defense.Defense;
@@ -29,6 +30,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     private TiledMap tiledMap;
     private TileManager tileManager;
 
+    Position lastTappedTile = null;
     public GameScreen(Game g) {
         super(g);
         objects = new LinkedList<GameObject>();
@@ -116,6 +118,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        placeHighlight(screenX, screenY, true);
         return false;
     }
 
@@ -131,16 +134,34 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        Vector3 position = new Vector3(screenX,screenY,0);
-        camera.unproject(position);
-        int cellX = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).x);
-        int cellY = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).y);
-        tileManager.highlightTile(cellX,cellY);
+        placeHighlight(screenX, screenY, false);
         return false;
     }
 
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    private Position placeHighlight(float x, float y,boolean click){
+        Vector3 position = new Vector3(x,y,0);
+        camera.unproject(position);
+        int cellX = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).x);
+        int cellY = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).y);
+        if (click) {
+            if (lastTappedTile != null) {
+                if (lastTappedTile.x == cellX && lastTappedTile.y == cellY) {
+                    objects.add(new Defense(CoordinatesHelper.isoToTwoD(new Vector2(x, y)), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
+                        @Override
+                        public boolean isDetectable(GameObject o) {
+                            return o instanceof Enemy;
+                        }
+                    })));
+                }
+            }
+        }
+        tileManager.highlightTile(cellX,cellY);
+        lastTappedTile = new Position(cellX, cellY);
+        return new Position(cellX, cellY);
     }
 }

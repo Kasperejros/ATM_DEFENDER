@@ -21,7 +21,7 @@ public class CoordinatesHelper {
     }
 
     public static Vector2 getTileCoordinates(Vector3 pt){
-        Vector2 tileCoordinates = new Vector2(pt.x,pt.y);;
+        Vector2 tileCoordinates = new Vector2(pt.x,pt.y);
         tileCoordinates.x /= Game.TILEWIDTH;
         tileCoordinates.y = (tileCoordinates.y - Game.TILEHEIGHT/2) / Game.TILEHEIGHT + tileCoordinates.x;
         tileCoordinates.x -= tileCoordinates.y - tileCoordinates.x;
@@ -30,4 +30,5 @@ public class CoordinatesHelper {
         return tileCoordinates;
 
     }
+
 }
