@@ -6,6 +6,7 @@ import com.atm.game.ObjectsDetector;
 import com.atm.game.Game;
 import com.atm.game.GameObject;
 import com.atm.game.Position;
+import com.atm.game.projectile.Projectile;
 import com.atm.game.tile.CoordinatesHelper;
 import com.atm.game.Cone;
 import com.atm.game.defense.Defense;
@@ -55,6 +56,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public void render(float delta) {
+        List<Defense> toAdd = new LinkedList<Defense>();
 
         lastAddedEnemy += delta;
         if (lastAddedEnemy > 3f) {
@@ -64,6 +66,19 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         super.render(delta);
         for (GameObject o : objects) {
             o.update(delta);
+            if(o instanceof Defense) {
+                Defense d = (Defense) o;
+                if(!d.getProjectiles().isEmpty()) {
+                    toAdd.add(d);
+                }
+            }
+        }
+
+        for (Defense d: toAdd) {
+            for(Projectile p: d.getProjectiles()) {
+                objects.add(p);
+            }
+            d.resetList();
         }
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
