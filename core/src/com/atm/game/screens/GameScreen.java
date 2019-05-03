@@ -151,7 +151,8 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         if (click) {
             if (lastTappedTile != null) {
                 if (lastTappedTile.x == cellX && lastTappedTile.y == cellY) {
-                    objects.add(new Defense(CoordinatesHelper.isoToTwoD(new Vector2(x, y)), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
+                    float newY = camera.viewportHeight-y;
+                    objects.add(new Defense(CoordinatesHelper.isoToTwoD(new Vector2(x, newY)), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
                         @Override
                         public boolean isDetectable(GameObject o) {
                             return o instanceof Enemy;

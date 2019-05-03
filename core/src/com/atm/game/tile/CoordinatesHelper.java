@@ -31,4 +31,11 @@ public class CoordinatesHelper {
 
     }
 
+    public static Vector2 V3toV2(Vector3 input) {
+        return new Vector2(input.x, input.y);
+    }
+    public static Vector3 V2toV3(Vector2 input) {
+        return new Vector3(input.x, input.y, 0);
+    }
+
 }
