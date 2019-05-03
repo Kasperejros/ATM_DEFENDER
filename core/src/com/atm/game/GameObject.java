@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class GameObject extends Actor {
+public class GameObject {
     protected Texture image;
     protected Vector2 position;
     protected boolean alive = true;

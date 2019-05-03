@@ -6,10 +6,12 @@ import com.atm.game.GameObject;
 import com.atm.game.TextureCache;
 import com.atm.game.Waypoints;
 import com.atm.game.interactions.Withdraw;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class Enemy extends GameObject {
     private float speed = 100f;
+    private float hp = 100f;
     private ObjectsDetector detector;
     private Waypoints route;
 
@@ -34,6 +36,14 @@ public class Enemy extends GameObject {
                 ((ATM)detected).interact(this, w);
                 alive = false;
             }
+        }
+    }
+
+    public void hit(float amount) {
+        this.hp -= amount;
+        if (hp <= 0) {
+            Gdx.app.log("ENEMY", "UMAR");
+            alive = false;
         }
     }
 
