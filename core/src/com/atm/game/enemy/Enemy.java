@@ -1,15 +1,18 @@
 package com.atm.game.enemy;
 
 import com.atm.game.ATM;
+import com.atm.game.Interactable;
 import com.atm.game.ObjectsDetector;
 import com.atm.game.GameObject;
 import com.atm.game.TextureCache;
 import com.atm.game.Waypoints;
+import com.atm.game.interactions.Hit;
+import com.atm.game.interactions.Interaction;
 import com.atm.game.interactions.Withdraw;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
-public class Enemy extends GameObject {
+public class Enemy extends GameObject implements Interactable {
     private float speed = 100f;
     private float hp = 100f;
     private ObjectsDetector detector;
@@ -45,6 +48,12 @@ public class Enemy extends GameObject {
         if (hp <= 0) {
             Gdx.app.log("ENEMY", "UMAR");
             alive = false;
+        }
+    }
+
+    public void interact(GameObject _, Interaction i) {
+        if (i instanceof Hit) {
+            hit(((Hit)i).damage);
         }
     }
 

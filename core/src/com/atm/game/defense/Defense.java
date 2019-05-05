@@ -16,7 +16,7 @@ public class Defense extends GameObject {
     protected ObjectsDetector detector;
 
     protected float cooldownCounter = 0f;
-    protected float cooldownTime = .2f;
+    protected float cooldownTime = 2f;
 
     public Defense(Vector2 position, ObjectsDetector detector) {
         super();
