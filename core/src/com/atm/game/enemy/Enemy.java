@@ -34,6 +34,7 @@ public class Enemy extends GameObject {
                 Withdraw w = new Withdraw();
                 w.amout = 100;
                 ((ATM)detected).interact(this, w);
+                Gdx.app.log("ASDF", "WYPŁATA I ŚMIERĆ");
                 alive = false;
             }
         }

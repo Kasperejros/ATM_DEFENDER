@@ -12,17 +12,17 @@ import java.util.List;
 
 public class Defense extends GameObject {
     private List<Projectile> toSpawn = new LinkedList<Projectile>();
-    protected float damage = 10f;
+    protected float damage = 0f;
     protected ObjectsDetector detector;
 
     protected float cooldownCounter = 0f;
-    protected float cooldownTime = 20f;
+    protected float cooldownTime = .2f;
 
     public Defense(Vector2 position, ObjectsDetector detector) {
         super();
         this.position = position;
         this.detector = detector;
-        range = 100f;
+        range = 300f;
         this.image = TextureCache.getInstance().getTexture("Defenses/defense.png");
     }
     private float range;

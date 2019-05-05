@@ -56,7 +56,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     @Override
     public void render(float delta) {
-        List<Defense> toAdd = new LinkedList<Defense>();
+        List<GameObject> toAdd = new LinkedList<GameObject>();
 
         lastAddedEnemy += delta;
         if (lastAddedEnemy > 3f) {
@@ -69,17 +69,15 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
             if(o instanceof Defense) {
                 Defense d = (Defense) o;
                 if(!d.getProjectiles().isEmpty()) {
-                    toAdd.add(d);
+                    toAdd.addAll(d.getProjectiles());
+                    d.resetList();
                 }
             }
         }
-
-        for (Defense d: toAdd) {
-            for(Projectile p: d.getProjectiles()) {
-                objects.add(p);
-            }
-            d.resetList();
+        for (GameObject object: toAdd) {
+            objects.add(object);
         }
+
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         spriteBatch.begin();

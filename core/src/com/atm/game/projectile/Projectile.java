@@ -13,7 +13,7 @@ public class Projectile extends GameObject {
     private GameObject targetedObject;
     protected float damage = 10f;
     protected ObjectsDetector detector;
-
+    protected float speed = 150f;
     public Projectile(Defense defense, GameObject targetedObject, ObjectsDetector detector) {
         super();
         this.defense = defense;
@@ -26,17 +26,12 @@ public class Projectile extends GameObject {
     private float range;
     @Override
     public void update(float delta) {
-        Vector2 movement = new Vector2(targetedObject.getPosition().sub(this.position));
-        if(movement.x > 0) {
-            this.position.x--;
+        if (targetedObject.isAlive()) {
+            Vector2 targetPosition = new Vector2(targetedObject.getPosition());
+            Vector2 movement = new Vector2(targetPosition.sub(this.position));
+            this.position.add(movement.nor().scl(delta * speed));
         } else {
-            this.position.x++;
-        }
-
-        if(movement.y > 0) {
-            this.position.y--;
-        } else {
-            this.position.y++;
+            alive = false;
         }
     }
 
