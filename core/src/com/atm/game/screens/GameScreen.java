@@ -132,6 +132,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         placeHighlight(screenX, screenY, true);
+
         return false;
     }
 
