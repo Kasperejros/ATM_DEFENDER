@@ -33,10 +33,8 @@ public class CoordinatesHelper {
 
     public static Vector2 getTileCenter(Vector2 pt){
         Vector2 tileCenter = new Vector2(0,0);
-
         tileCenter.x = (pt.x + pt.y) * (Game.TILEWIDTH/2) + 64 -832;
         tileCenter.y = (-pt.x + pt.y) * (Game.TILEHEIGHT/2) + 32 +288;
-
         return tileCenter;
     }
 
