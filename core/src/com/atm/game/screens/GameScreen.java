@@ -39,12 +39,6 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         enemiesFactory.route = route();
 
         objects.add(enemiesFactory.createEnemy(new Vector2(500f, 500f)));
-        objects.add(new Defense(new Vector2(300, 100), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
-            @Override
-            public boolean isDetectable(GameObject o) {
-                return o instanceof Enemy;
-            }
-        })));
         objects.add(new ATM(new Vector2(500f, 300f)));
 
         tiledMap = new TmxMapLoader().load("Maps/test_map.tmx");
@@ -82,7 +76,7 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
         tiledMapRenderer.render();
         spriteBatch.begin();
         for (GameObject o : objects) {
-            Vector2 position = CoordinatesHelper.twoDToIso(o.getPosition());
+            Vector2 position = o.getPosition().add(o.getOffset());
             spriteBatch.draw(o.getImage(), position.x, position.y);
         }
         spriteBatch.end();
@@ -159,14 +153,13 @@ public class GameScreen extends AbstractScreen implements InputProcessor {
 
     private Position placeHighlight(float x, float y,boolean click){
         Vector3 position = new Vector3(x,y,0);
-        camera.unproject(position);
+        position = camera.unproject(position);
         int cellX = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).x);
         int cellY = (int) Math.floor(CoordinatesHelper.getTileCoordinates(position).y);
         if (click) {
             if (lastTappedTile != null) {
                 if (lastTappedTile.x == cellX && lastTappedTile.y == cellY) {
-                    float newY = camera.viewportHeight-y;
-                    objects.add(new Defense(CoordinatesHelper.isoToTwoD(new Vector2(x, newY)), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
+                    objects.add(new Defense(CoordinatesHelper.getTileCenter(new Vector2(cellX, cellY)), new ObjectsDetector(objects, new ObjectsDetector.DetectorPredictate() {
                         @Override
                         public boolean isDetectable(GameObject o) {
                             return o instanceof Enemy;

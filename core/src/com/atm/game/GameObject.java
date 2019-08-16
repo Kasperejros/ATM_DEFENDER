@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class GameObject {
     protected Texture image;
     protected Vector2 position;
+    protected Vector2 offset = new Vector2(-32, 0);
     protected boolean alive = true;
     public boolean isAlive() {
         return alive;
@@ -15,7 +16,10 @@ public class GameObject {
 
     }
     public Vector2 getPosition() {
-        return this.position;
+        return new Vector2(this.position);
+    }
+    public Vector2 getOffset() {
+        return new Vector2(this.offset);
     }
     public Texture getImage() {
         return this.image;
